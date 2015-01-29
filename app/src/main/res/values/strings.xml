@@ -8,5 +8,11 @@
     <string name="image_title_lable">Default title</string>
     <string name="image_title_label">Default title</string>
     <string name="title_activity_image_display">ImageDisplayActivity</string>
+    <string name="tv_image_size">Image size</string>
+    <string name="tv_color_filter">Color filter</string>
+    <string name="tv_image_type">Image type</string>
+    <string name="tv_site_filter">Site filter</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_dialog_title">Search Settings</string>
 
 </resources>
