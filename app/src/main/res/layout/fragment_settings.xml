@@ -5,10 +5,10 @@
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/tvImageSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_image_size"
-        android:id="@+id/tvImageSize"
         android:gravity="center_vertical"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -16,43 +16,45 @@
         android:layout_alignBottom="@+id/spImageSize" />
 
     <Spinner
+        android:id="@+id/spImageSize"
+        android:entries="@array/image_sizes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spImageSize"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/tvImageSize"
         android:layout_toEndOf="@+id/tvImageSize"
-        android:spinnerMode="dialog" />
+        android:spinnerMode="dialog"/>
 
     <TextView
+        android:id="@+id/tvColorFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_color_filter"
-        android:id="@+id/tvColorFilter"
         android:gravity="center_vertical"
         android:layout_below="@+id/tvImageSize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/tvColorFilter" />
+        android:layout_alignBottom="@+id/spImageColor" />
 
     <Spinner
+        android:id="@+id/spImageColor"
+        android:entries="@array/image_colors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvColorFilter"
         android:layout_below="@+id/spImageSize"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/tvImageSize"
         android:spinnerMode="dialog"
-        android:layout_toRightOf="@+id/tvImageSize" />
+        android:layout_toRightOf="@+id/tvImageSize"/>
 
     <TextView
+        android:id="@+id/tvImageType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_image_type"
-        android:id="@+id/tvImageType"
         android:gravity="center_vertical"
         android:layout_below="@+id/tvColorFilter"
         android:layout_alignParentLeft="true"
@@ -60,21 +62,22 @@
         android:layout_alignBottom="@+id/spImageType" />
 
     <Spinner
+        android:id="@+id/spImageType"
+        android:entries="@array/image_types"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spImageType"
-        android:layout_alignLeft="@+id/tvColorFilter"
-        android:layout_alignStart="@+id/tvColorFilter"
-        android:layout_below="@+id/tvColorFilter"
+        android:layout_below="@+id/spImageColor"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:spinnerMode="dialog" />
+        android:spinnerMode="dialog"
+        android:layout_toRightOf="@+id/tvImageType"
+        android:layout_toEndOf="@+id/tvImageType" />
 
     <TextView
+        android:id="@+id/tvSiteFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_site_filter"
-        android:id="@+id/tvSiteFilter"
         android:gravity="center_vertical"
         android:layout_below="@+id/tvImageType"
         android:layout_alignParentLeft="true"
@@ -82,9 +85,9 @@
         android:layout_alignBottom="@+id/etSiteFilter" />
 
     <EditText
+        android:id="@+id/etSiteFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etSiteFilter"
         android:layout_below="@+id/spImageType"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -92,10 +95,10 @@
         android:layout_toEndOf="@+id/tvImageType" />
 
     <Button
+        android:id="@+id/btnSettingsSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
-        android:id="@+id/btnSettingsSave"
         android:layout_below="@+id/tvSiteFilter"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -103,10 +106,10 @@
         android:layout_toStartOf="@+id/btnSettingsCancel" />
 
     <Button
+        android:id="@+id/btnSettingsCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
-        android:id="@+id/btnSettingsCancel"
         android:layout_below="@+id/etSiteFilter"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
