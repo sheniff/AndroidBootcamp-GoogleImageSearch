@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sheniff.googleimagesearch.R;
+import com.sheniff.googleimagesearch.TouchImageView;
 import com.sheniff.googleimagesearch.models.ImageResult;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -26,6 +28,8 @@ import java.io.IOException;
 public class ImageDisplayActivity extends ActionBarActivity {
 
     private android.support.v7.widget.ShareActionProvider miShareAction;
+    private TouchImageView ivImageResult;
+    private TextView tvZoomPerc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +37,33 @@ public class ImageDisplayActivity extends ActionBarActivity {
         setContentView(R.layout.activity_image_display);
         ImageResult result = (ImageResult) getIntent().getSerializableExtra("result");
         getSupportActionBar().setTitle(result.getTitleNoFormat());
-        ImageView ivImageResult = (ImageView) findViewById(R.id.ivImageResult);
-        Picasso.with(this).load(result.getImageUrl()).placeholder(R.drawable.ic_launcher).error(R.drawable.crash).into(ivImageResult, new Callback() {
-            @Override
-            public void onSuccess() {
-                setupShareIntent();
-            }
+        ivImageResult = (TouchImageView) findViewById(R.id.ivImageResult);
+        tvZoomPerc = (TextView) findViewById(R.id.tvZoomPercentage);
 
+        ivImageResult.setOnTouchImageViewListener(new TouchImageView.OnTouchImageViewListener() {
             @Override
-            public void onError() {
-                Log.e("DETAIL ERROR", "Error fetching full image");
+            public void onMove() {
+                tvZoomPerc.setText(Integer.toString((int) (ivImageResult.getCurrentZoom() * 100)) + "%");
             }
         });
+
+        Picasso.with(this)
+            .load(result.getImageUrl())
+            .placeholder(R.drawable.ic_launcher)
+            .error(R.drawable.crash)
+            .fit()
+            .into(ivImageResult, new Callback() {
+                @Override
+                public void onSuccess() {
+                    setupShareIntent();
+                    tvZoomPerc.setText(Integer.toString((int) (ivImageResult.getCurrentZoom() * 100)) + "%");
+                }
+
+                @Override
+                public void onError() {
+                    Log.e("DETAIL ERROR", "Error fetching full image");
+                }
+            });
     }
 
     @Override

@@ -31,13 +31,12 @@ import java.util.ArrayList;
 /*
 * The following user stories must be completed:
 
-[NEXT] Bonus: User can zoom or pan images displayed in full-screen detail view
+[NEXT] Advanced: Robust error handling, check if internet is available, handle error cases, network failures
 
-Advanced: Robust error handling, check if internet is available, handle error cases, network failures
-Advanced: Improve the user interface and experiment with image assets and/or styling and coloring
-
-Reorganize the code the Jorge way xD
 Add loader for pagination (fix it!!)
+Advanced: Improve the user interface and experiment with image assets and/or styling and coloring
+Reorganize the code the Jorge way xD
+
 */
 
 public class SearchActivity extends ActionBarActivity {
