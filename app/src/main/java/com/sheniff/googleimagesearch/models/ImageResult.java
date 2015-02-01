@@ -15,12 +15,14 @@ public class ImageResult implements Serializable {
     private String imageUrl;
     private String thumbUrl;
     private String title;
+    private String titleNoFormat;
 
     public ImageResult(JSONObject json) {
         try {
             this.imageUrl = json.getString("unescapedUrl");
             this.thumbUrl = json.getString("tbUrl");
             this.title = json.getString("title");
+            this.titleNoFormat = json.getString("titleNoFormatting");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -48,5 +50,9 @@ public class ImageResult implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getTitleNoFormat() {
+        return titleNoFormat;
     }
 }

@@ -3,16 +3,15 @@ package com.sheniff.googleimagesearch.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.GridView;
 
+import com.etsy.android.grid.StaggeredGridView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.sheniff.googleimagesearch.EndlessScrollListener;
 import com.sheniff.googleimagesearch.GoogleImages;
@@ -32,27 +31,22 @@ import java.util.ArrayList;
 /*
 * The following user stories must be completed:
 
-[NEXT] Advanced: Use the ActionBar SearchView or custom layout as the query box instead of an EditText
+[NEXT] Bonus: User can zoom or pan images displayed in full-screen detail view
 
 Advanced: Robust error handling, check if internet is available, handle error cases, network failures
-Advanced: User can share an image to their friends or email it to themselves
 Advanced: Improve the user interface and experiment with image assets and/or styling and coloring
-Bonus: Use the StaggeredGridView to display improve the grid of image results
-Bonus: User can zoom or pan images displayed in full-screen detail view
+
 Reorganize the code the Jorge way xD
-Add loader for pagination
+Add loader for pagination (fix it!!)
 */
 
 public class SearchActivity extends ActionBarActivity {
     private static int MAX_PAGES = 8;
-    private EditText etQuery;
     private String query = "";
-    private GridView gvResults;
+    private StaggeredGridView gvResults;
     private ArrayList<ImageResult> imageResults;
     private ImageResultsAdapter aImageResults;
     private ImageSearchSettings searchSettings;
-
-    private EndlessScrollListener endlessScrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +55,14 @@ public class SearchActivity extends ActionBarActivity {
         setupViews();
         imageResults = new ArrayList<>();
         aImageResults = new ImageResultsAdapter(this, imageResults);
-//        aImageResults.setListMaxSize(MAX_PAGES * GoogleImages.PER_PAGE);
+        aImageResults.setListMaxSize(MAX_PAGES * GoogleImages.PER_PAGE);
         gvResults.setAdapter(aImageResults);
         // init settings object
         searchSettings = new ImageSearchSettings();
         // set up infinite scroll
-        endlessScrollListener = new EndlessScrollListener(MAX_PAGES) {
+        EndlessScrollListener endlessScrollListener = new EndlessScrollListener(MAX_PAGES) {
             @Override
             protected void onLoadMore(int page, int totalItemCount) {
-                Log.d("ONLOADMORE", "Loading page..." + Integer.toString(page) + " " + Integer.toString(totalItemCount) + " " + etQuery.getText().toString());
                 queryImages(query, page);
             }
         };
@@ -77,8 +70,7 @@ public class SearchActivity extends ActionBarActivity {
     }
 
     private void setupViews() {
-        etQuery = (EditText) findViewById(R.id.etQuery);
-        gvResults = (GridView) findViewById(R.id.gvResults);
+        gvResults = (StaggeredGridView) findViewById(R.id.gvResults);
         gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,21 +81,6 @@ public class SearchActivity extends ActionBarActivity {
                 startActivity(i);
             }
         });
-    }
-
-    public void onImageSearch(View view) {
-        query = etQuery.getText().toString();
-
-        if(imageResults.size() > 0) {
-            imageResults.clear();
-            aImageResults.notifyDataSetChanged();
-        }
-
-        queryImages(query, 0);
-
-        // hide keyboard
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etQuery.getWindowToken(), 0);
     }
 
     public void queryImages(String query, final int page) {
@@ -124,10 +101,33 @@ public class SearchActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
-        return true;
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String q) {
+                query = q;
+                if(imageResults.size() > 0) {
+                    imageResults.clear();
+                    aImageResults.notifyDataSetChanged();
+                }
+                queryImages(query, 0);
+                // hide keyboard
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(getCurrentFocus() != null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void showSettings(MenuItem item) {
