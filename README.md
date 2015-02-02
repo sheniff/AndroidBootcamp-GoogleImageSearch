@@ -14,12 +14,12 @@ Google Image Search project for Android Bootcamp at Yahoo!
 * [x] User can scroll down “infinitely” to continue loading more image results (up to 8 pages)
 
 **Advanced Stories:**
-* [x] Advanced: Robust error handling, check if internet is available, handle error cases, network failures
-* [x] Advanced: Use the ActionBar SearchView or custom layout as the query box instead of an EditText
-* [x] Advanced: User can share an image to their friends or email it to themselves
-* [x] Advanced: Replace Filter Settings Activity with a lightweight modal overlay
-* [x] Advanced: Improve the user interface and experiment with image assets and/or styling and coloring
+* [x] Robust error handling, check if internet is available, handle error cases, network failures
+* [x] Use the ActionBar SearchView or custom layout as the query box instead of an EditText
+* [x] User can share an image to their friends or email it to themselves
+* [x] Replace Filter Settings Activity with a lightweight modal overlay
+* [x] Improve the user interface and experiment with image assets and/or styling and coloring
 
 **Bonus Stories:**
-* [x] Bonus: Use the StaggeredGridView to display improve the grid of image results
-* [x] Bonus: User can zoom or pan images displayed in full-screen detail view
+* [x] Use the StaggeredGridView to display improve the grid of image results
+* [x] User can zoom or pan images displayed in full-screen detail view
