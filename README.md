@@ -1,6 +1,12 @@
 # AndroidBootcamp-GoogleImageSearch
 Google Image Search project for Android Bootcamp at Yahoo!
 
+![googleimagesearchdemo](https://cloud.githubusercontent.com/assets/1939291/5996549/d5156104-aa60-11e4-8bbd-0e48399f9a88.gif)
+
+Forgot to show the infinite scroll (oops...):
+
+![googleimagesearchdemo2](https://cloud.githubusercontent.com/assets/1939291/5996552/daa3895c-aa60-11e4-8ace-f43721391fb2.gif)
+
 **User Stories:**
 * [x] User can enter a search query that will display a grid of image results from the Google Image API.
 * [x] User can click on "settings" which allows selection of advanced search options to filter results
