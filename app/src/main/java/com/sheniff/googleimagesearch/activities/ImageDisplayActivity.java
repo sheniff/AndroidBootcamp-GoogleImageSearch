@@ -27,36 +27,41 @@ import java.io.IOException;
 
 public class ImageDisplayActivity extends ActionBarActivity {
 
+    // region Variables
     private android.support.v7.widget.ShareActionProvider miShareAction;
     private TouchImageView ivImageResult;
     private TextView tvZoomPerc;
+    // endregion
+
+    // region Listeners
+    private TouchImageView.OnTouchImageViewListener touchImageViewListener = new TouchImageView.OnTouchImageViewListener() {
+        @Override
+        public void onMove() {
+            updateZoom();
+        }
+    };
+    // endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_display);
+        bindUIElements();
+        setUpListeners();
+
+        ivImageResult.setMinZoom(0.5f);
         ImageResult result = (ImageResult) getIntent().getSerializableExtra("result");
         getSupportActionBar().setTitle(result.getTitleNoFormat());
-        ivImageResult = (TouchImageView) findViewById(R.id.ivImageResult);
-        tvZoomPerc = (TextView) findViewById(R.id.tvZoomPercentage);
 
-        ivImageResult.setOnTouchImageViewListener(new TouchImageView.OnTouchImageViewListener() {
-            @Override
-            public void onMove() {
-                tvZoomPerc.setText(Integer.toString((int) (ivImageResult.getCurrentZoom() * 100)) + "%");
-            }
-        });
-
-        Picasso.with(this)
-            .load(result.getImageUrl())
+        Picasso.with(this).load(result.getImageUrl())
+            //.fit() it distorts the image...
             .placeholder(R.drawable.ic_launcher)
             .error(R.drawable.crash)
-            .fit()
             .into(ivImageResult, new Callback() {
                 @Override
                 public void onSuccess() {
                     setupShareIntent();
-                    tvZoomPerc.setText(Integer.toString((int) (ivImageResult.getCurrentZoom() * 100)) + "%");
+                    updateZoom();
                 }
 
                 @Override
@@ -64,6 +69,15 @@ public class ImageDisplayActivity extends ActionBarActivity {
                     Log.e("DETAIL ERROR", "Error fetching full image");
                 }
             });
+    }
+
+    private void bindUIElements() {
+        ivImageResult = (TouchImageView) findViewById(R.id.ivImageResult);
+        tvZoomPerc = (TextView) findViewById(R.id.tvZoomPercentage);
+    }
+
+    private void setUpListeners() {
+        ivImageResult.setOnTouchImageViewListener(touchImageViewListener);
     }
 
     @Override
@@ -82,7 +96,13 @@ public class ImageDisplayActivity extends ActionBarActivity {
         shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         shareIntent.setType("image/*");
         // Attach share event to the menu item provider
-        miShareAction.setShareIntent(shareIntent);
+        if(miShareAction != null) {
+            miShareAction.setShareIntent(shareIntent);
+        }
+    }
+
+    private void updateZoom() {
+        tvZoomPerc.setText(Integer.toString((int) (ivImageResult.getCurrentZoom() * 100)) + "%");
     }
 
     private Uri getLocalBitmapUri(ImageView ivImage) {

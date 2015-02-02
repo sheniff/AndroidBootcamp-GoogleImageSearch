@@ -10,16 +10,37 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.sheniff.googleimagesearch.R;
+import com.sheniff.googleimagesearch.adapters.ColorSpinnerAdapter;
 import com.sheniff.googleimagesearch.models.ImageSearchSettings;
 
 
 public class SettingsFragment extends DialogFragment {
 
+    // region Variables
     private EditText etSiteFilter;
     private Spinner spImageSize;
     private Spinner spImageType;
     private Spinner spImageColor;
     private ImageSearchSettings settings;
+    private Button btnSave;
+    private Button btnCancel;
+    // endregion
+
+    // region Listeners
+    View.OnClickListener saveClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveSettings();
+            getDialog().dismiss();
+        }
+    };
+    View.OnClickListener cancelClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getDialog().dismiss();
+        }
+    };
+    // endregion
 
     public SettingsFragment() {}
 
@@ -34,11 +55,12 @@ public class SettingsFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container);
-        etSiteFilter = (EditText) view.findViewById(R.id.etSiteFilter);
-        spImageSize = (Spinner) view.findViewById(R.id.spImageSize);
-        spImageType = (Spinner) view.findViewById(R.id.spImageType);
-        spImageColor = (Spinner) view.findViewById(R.id.spImageColor);
+        bindUIElements(view);
+        setUpListeners();
         settings = getArguments().getParcelable("settings");
+
+        // ToDo: Unable to make it work as expected (showing each spinner in a different color..)
+        // decorateColorSpinner(view);
 
         // set dialog title
         getDialog().setTitle(R.string.settings_dialog_title);
@@ -48,25 +70,26 @@ public class SettingsFragment extends DialogFragment {
         spImageType.setSelection(settings.getType());
         spImageColor.setSelection(settings.getColor());
 
-        // listeners
-        Button btnSave = (Button) view.findViewById(R.id.btnSettingsSave);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveSettings();
-                getDialog().dismiss();
-            }
-        });
-
-        Button btnCancel = (Button) view.findViewById(R.id.btnSettingsCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDialog().dismiss();
-            }
-        });
-
         return view;
+    }
+
+    private void decorateColorSpinner(View view) {
+        ColorSpinnerAdapter adapter = new ColorSpinnerAdapter(view.getContext());
+        spImageColor.setAdapter(adapter);
+    }
+
+    private void bindUIElements(View view) {
+        etSiteFilter = (EditText) view.findViewById(R.id.etSiteFilter);
+        spImageSize = (Spinner) view.findViewById(R.id.spImageSize);
+        spImageType = (Spinner) view.findViewById(R.id.spImageType);
+        spImageColor = (Spinner) view.findViewById(R.id.spImageColor);
+        btnSave = (Button) view.findViewById(R.id.btnSettingsSave);
+        btnCancel = (Button) view.findViewById(R.id.btnSettingsCancel);
+    }
+
+    private void setUpListeners() {
+        btnSave.setOnClickListener(saveClickListener);
+        btnCancel.setOnClickListener(cancelClickListener);
     }
 
     public void saveSettings() {

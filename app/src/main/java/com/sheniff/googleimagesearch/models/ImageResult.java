@@ -16,6 +16,9 @@ public class ImageResult implements Serializable {
     private String thumbUrl;
     private String title;
     private String titleNoFormat;
+    private String visibleUrl;
+    private int width;
+    private int height;
 
     public ImageResult(JSONObject json) {
         try {
@@ -23,6 +26,9 @@ public class ImageResult implements Serializable {
             this.thumbUrl = json.getString("tbUrl");
             this.title = json.getString("title");
             this.titleNoFormat = json.getString("titleNoFormatting");
+            this.visibleUrl = json.getString("visibleUrl");
+            this.width = json.getInt("width");
+            this.height = json.getInt("height");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -54,5 +60,17 @@ public class ImageResult implements Serializable {
 
     public String getTitleNoFormat() {
         return titleNoFormat;
+    }
+
+    public String getVisibleUrl() {
+        return visibleUrl;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

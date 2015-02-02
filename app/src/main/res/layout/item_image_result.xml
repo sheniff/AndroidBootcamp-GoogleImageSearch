@@ -3,20 +3,42 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:padding="5dp"
+    android:background="#ffe4e7ea">
 
     <ImageView
+        android:id="@+id/ivImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ivImage"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_launcher" />
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/image_title_label"
-        android:id="@+id/tvTitle"
-        android:singleLine="true"/>
+        android:maxLines="2"
+        android:ellipsize="marquee"
+        android:textColor="@color/abc_primary_text_material_light"/>
+
+    <TextView
+        android:id="@+id/tvResultUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visible_url"
+        android:singleLine="true"
+        android:textStyle="italic"
+        android:textSize="10sp"
+        android:textColor="@color/link_text_material_light"/>
+
+    <TextView
+        android:id="@+id/tvResultDimension"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="dimensions"
+        android:textColor="#AAA"/>
 </LinearLayout>
